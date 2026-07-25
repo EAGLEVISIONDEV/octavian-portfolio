@@ -1,59 +1,93 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Sparkles } from "@react-three/drei";
+import { Float, Html, Sparkles } from "@react-three/drei";
 import { Suspense, useRef } from "react";
 import type { Group, Mesh } from "three";
 import { orbitLabels } from "@/lib/data";
 
+/** Saturn body + blue ring; labels ride on the ring and spin with it. */
 function Saturn() {
-  const group = useRef<Group>(null);
-  const ring = useRef<Mesh>(null);
+  const body = useRef<Group>(null);
+  const ringSystem = useRef<Group>(null);
 
   useFrame((_, delta) => {
-    if (group.current) group.current.rotation.y += delta * 0.12;
-    if (ring.current) ring.current.rotation.z += delta * 0.05;
+    // Planet slow spin
+    if (body.current) body.current.rotation.y += delta * 0.18;
+    // Ring + labels rotate together around Saturn (blue circle path)
+    if (ringSystem.current) ringSystem.current.rotation.z += delta * 0.35;
   });
 
   return (
-    <Float speed={1.1} rotationIntensity={0.15} floatIntensity={0.35}>
-      <group ref={group} position={[0.35, 0.05, 0]} rotation={[0.35, -0.25, 0.1]}>
-        <mesh>
-          <sphereGeometry args={[1.15, 48, 48]} />
-          <meshStandardMaterial
-            color="#7dd3c0"
-            roughness={0.35}
-            metalness={0.45}
-            emissive="#0f766e"
-            emissiveIntensity={0.22}
-          />
-        </mesh>
-        <mesh scale={1.08}>
-          <sphereGeometry args={[1.15, 32, 32]} />
-          <meshBasicMaterial color="#5eead4" transparent opacity={0.08} />
-        </mesh>
-        <mesh ref={ring} rotation={[Math.PI / 2.15, 0.15, 0]}>
-          <torusGeometry args={[1.85, 0.08, 2, 100]} />
-          <meshStandardMaterial
-            color="#94a3b8"
-            emissive="#38bdf8"
-            emissiveIntensity={0.35}
-            metalness={0.7}
-            roughness={0.3}
-            transparent
-            opacity={0.9}
-          />
-        </mesh>
-        <mesh rotation={[Math.PI / 2.15, 0.15, 0]}>
-          <torusGeometry args={[2.15, 0.035, 2, 100]} />
-          <meshStandardMaterial
-            color="#cbd5e1"
-            metalness={0.6}
-            roughness={0.4}
-            transparent
-            opacity={0.55}
-          />
-        </mesh>
+    <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.2}>
+      <group position={[0.3, 0.05, 0]} rotation={[0.42, -0.2, 0.08]}>
+        {/* Planet */}
+        <group ref={body}>
+          <mesh>
+            <sphereGeometry args={[1.12, 48, 48]} />
+            <meshStandardMaterial
+              color="#6fc4b4"
+              roughness={0.35}
+              metalness={0.45}
+              emissive="#0f766e"
+              emissiveIntensity={0.2}
+            />
+          </mesh>
+          <mesh scale={1.07}>
+            <sphereGeometry args={[1.12, 32, 32]} />
+            <meshBasicMaterial color="#5eead4" transparent opacity={0.07} />
+          </mesh>
+        </group>
+
+        {/* Blue ring plane — spins; labels placed on this circle */}
+        <group ref={ringSystem} rotation={[Math.PI / 2.05, 0.12, 0]}>
+          {/* Main blue ring */}
+          <mesh>
+            <torusGeometry args={[1.95, 0.09, 3, 128]} />
+            <meshStandardMaterial
+              color="#38bdf8"
+              emissive="#38bdf8"
+              emissiveIntensity={0.65}
+              metalness={0.75}
+              roughness={0.25}
+              transparent
+              opacity={0.95}
+            />
+          </mesh>
+          {/* Outer glow ring */}
+          <mesh>
+            <torusGeometry args={[2.28, 0.04, 2, 128]} />
+            <meshStandardMaterial
+              color="#7dd3fc"
+              emissive="#0ea5e9"
+              emissiveIntensity={0.4}
+              metalness={0.5}
+              roughness={0.35}
+              transparent
+              opacity={0.55}
+            />
+          </mesh>
+
+          {orbitLabels.map((label, i) => {
+            const angle = (i / orbitLabels.length) * Math.PI * 2;
+            const radius = 1.95;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            return (
+              <Html
+                key={label}
+                position={[x, y, 0]}
+                center
+                distanceFactor={7.5}
+                style={{ pointerEvents: "none" }}
+              >
+                <span className="whitespace-nowrap rounded-full border border-sky-400/40 bg-[#071018]/90 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.35)] backdrop-blur-sm sm:text-[10px]">
+                  {label}
+                </span>
+              </Html>
+            );
+          })}
+        </group>
       </group>
     </Float>
   );
@@ -65,7 +99,7 @@ function Scene() {
       <ambientLight intensity={0.4} />
       <directionalLight position={[4, 5, 3]} intensity={1.15} color="#e2e8f0" />
       <pointLight position={[-3, 2, 2]} intensity={0.9} color="#5eead4" />
-      <pointLight position={[2, -1, 3]} intensity={0.45} color="#38bdf8" />
+      <pointLight position={[2, -1, 3]} intensity={0.55} color="#38bdf8" />
       <Saturn />
       <Sparkles count={36} scale={[11, 7, 7]} size={2} speed={0.25} color="#5eead4" opacity={0.45} />
     </>
@@ -75,26 +109,9 @@ function Scene() {
 export function HeroScene3D({ className = "" }: { className?: string }) {
   return (
     <div className={`absolute inset-0 ${className}`}>
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-        <div className="orbit-ring relative h-[min(72vw,420px)] w-[min(72vw,420px)] lg:h-[460px] lg:w-[460px]">
-          {orbitLabels.map((label, i) => {
-            const angle = (360 / orbitLabels.length) * i;
-            return (
-              <span
-                key={label}
-                className="orbit-item absolute left-1/2 top-1/2 whitespace-nowrap rounded-full border border-white/10 bg-[#0b0f16]/75 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent backdrop-blur-md sm:text-[11px]"
-                style={{ ["--a" as string]: `${angle}deg` }}
-              >
-                {label}
-              </span>
-            );
-          })}
-        </div>
-      </div>
-
       <Canvas
         dpr={[1, 1.5]}
-        camera={{ position: [0, 0, 5.4], fov: 40 }}
+        camera={{ position: [0, 0.2, 5.5], fov: 40 }}
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
       >
         <Suspense fallback={null}>
