@@ -5,29 +5,57 @@ export type Project = {
   description: string;
   stack: string[];
   github: string;
-  live?: string;
+  live: string;
   accent: string;
   featured?: boolean;
+  /** Some apps send X-Frame-Options: DENY — use screenshot-only preview */
+  iframeBlocked?: boolean;
 };
 
 export const profile = {
-  name: "Octavian Popovici",
-  brand: "EAGLE VISION",
-  role: "AI Engineer · Full-Stack · Product Builder",
-  bio: "I design and ship AI-native products, automation systems, and high-impact web experiences — from multi-agent platforms to premium brand sites.",
+  name: "HERMYO",
+  brand: "HERMYO",
+  fullBrand: "HERMYO PORTFOLIO",
+  role: "Modern product · AI · Web experiences",
+  bio: "A curated showcase of live websites and platforms — brand sites, automation systems, and product UIs shipped with modern stacks.",
   github: "https://github.com/EAGLEVISIONDEV",
-  email: null as string | null,
   location: "Romania",
 } as const;
 
+/** Only projects with a working live demo. */
 export const projects: Project[] = [
+  {
+    id: "ovb",
+    title: "OVB Automation",
+    tagline: "CRM · sales platform",
+    description:
+      "Complete OVB automation CRM — pipelines, leads, and operational workflows in one modern platform.",
+    stack: ["JavaScript", "CRM", "Automation"],
+    github: "https://github.com/EAGLEVISIONDEV/OVB-automation",
+    live: "https://ovb-automation.vercel.app",
+    accent: "#fb7185",
+    featured: true,
+    iframeBlocked: true,
+  },
+  {
+    id: "sebastian",
+    title: "Sebastian Morari",
+    tagline: "Personal brand site",
+    description:
+      "Polished personal website for Sebastian Morari — modern layout and strong visual hierarchy.",
+    stack: ["Next.js", "v0", "TypeScript"],
+    github: "https://github.com/EAGLEVISIONDEV/v0-sebastian",
+    live: "https://v0-sebastian-morari.vercel.app",
+    accent: "#38bdf8",
+    featured: true,
+  },
   {
     id: "carwash-pipera",
     title: "Car Wash Pipera",
-    tagline: "Luxury auto care landing",
+    tagline: "Luxury auto care",
     description:
-      "Ultra-modern 3D landing for a Pipera car wash — R3F foam scenes, HQ photography, and conversion-focused CTAs.",
-    stack: ["Next.js", "Three.js", "Framer Motion", "Tailwind"],
+      "3D landing for a Pipera car wash — foam scenes, HQ photography, and conversion CTAs.",
+    stack: ["Next.js", "Three.js", "Framer Motion"],
     github: "https://github.com/EAGLEVISIONDEV/carwash-pipera",
     live: "https://carwash-pipera.vercel.app",
     accent: "#f0d000",
@@ -38,7 +66,7 @@ export const projects: Project[] = [
     title: "RICCO",
     tagline: "Specialty coffee · Pipera",
     description:
-      "Brand-first café site for Hyperion Towers — menu synced from Wolt, green & gold aesthetic, delivery CTAs.",
+      "Brand-first café site at Hyperion Towers — menu, delivery links, green & gold aesthetic.",
     stack: ["Next.js", "Tailwind", "TypeScript"],
     github: "https://github.com/EAGLEVISIONDEV/ricco",
     live: "https://ricco-xi.vercel.app",
@@ -48,86 +76,91 @@ export const projects: Project[] = [
   {
     id: "zoca",
     title: "Zoca Imobiliare",
-    tagline: "Premium real estate scroll",
+    tagline: "Premium real estate",
     description:
-      "Cinematic scroll experience for a real-estate brand — immersive storytelling and polished property presentation.",
-    stack: ["Next.js", "TypeScript", "Motion"],
+      "Cinematic scroll experience for real estate — immersive storytelling and property presentation.",
+    stack: ["Next.js", "Motion", "TypeScript"],
     github: "https://github.com/EAGLEVISIONDEV/proiect-zoca-imobiliare",
     live: "https://demo-seven-self.vercel.app",
     accent: "#7dd3fc",
     featured: true,
   },
   {
-    id: "ai-agency",
-    title: "Octavian AI Agency OS",
-    tagline: "Multi-agent business platform",
+    id: "matei",
+    title: "Matei",
+    tagline: "Modern brand site",
     description:
-      "Autonomous AI-native operating system — orchestration, Next.js dashboard, microservices, Kubernetes-ready.",
-    stack: ["Next.js", "AI Agents", "Microservices", "K8s"],
-    github: "https://github.com/EAGLEVISIONDEV/octavian-ai-agency",
+      "Contemporary personal / brand landing with clean structure and responsive design.",
+    stack: ["Next.js", "v0", "TypeScript"],
+    github: "https://github.com/EAGLEVISIONDEV/v0-matei",
+    live: "https://v0-matei.vercel.app",
     accent: "#34d399",
-    featured: true,
   },
   {
-    id: "ovb",
-    title: "OVB Automation CRM",
-    tagline: "Complete sales automation",
+    id: "saas",
+    title: "SaaS Landing",
+    tagline: "Product marketing page",
     description:
-      "End-to-end CRM automation for OVB workflows — lead handling, pipelines, and operational tooling.",
-    stack: ["JavaScript", "CRM", "Automation"],
-    github: "https://github.com/EAGLEVISIONDEV/OVB-automation",
-    accent: "#fb7185",
-  },
-  {
-    id: "jarvis",
-    title: "JARVIS One",
-    tagline: "Voice-first macOS AI",
-    description:
-      "MCU-inspired voice assistant for macOS — talk naturally, get work done, offline-capable architecture.",
-    stack: ["Python", "Voice AI", "macOS"],
-    github: "https://github.com/EAGLEVISIONDEV/jarvis-one",
+      "High-converting SaaS landing page — modern sections, clear CTAs, product-focused layout.",
+    stack: ["Next.js", "v0", "Marketing"],
+    github: "https://github.com/EAGLEVISIONDEV/v0-saa-s-landing-page",
+    live: "https://v0-saa-s-landing-page-orcin-xi.vercel.app",
     accent: "#a78bfa",
-  },
-  {
-    id: "pfa",
-    title: "Popovici Octavian PFA",
-    tagline: "Services portfolio",
-    description:
-      "Professional site for software development services — clean branding and clear service packaging.",
-    stack: ["Next.js", "TypeScript"],
-    github: "https://github.com/EAGLEVISIONDEV/popovici-octavian-pfa",
-    live: "https://popovici-octavian-pfa.vercel.app",
-    accent: "#38bdf8",
-  },
-  {
-    id: "ai-projects",
-    title: "AI Projects Hub",
-    tagline: "Built projects portfolio",
-    description:
-      "Curated showcase of AI agency builds — demos, experiments, and production-facing prototypes.",
-    stack: ["TypeScript", "AI", "Next.js"],
-    github: "https://github.com/EAGLEVISIONDEV/octavian-ai-projects",
-    accent: "#f472b6",
   },
   {
     id: "iron-man",
     title: "Iron Man",
     tagline: "Interactive experience",
     description:
-      "Creative TypeScript build exploring immersive UI and cinematic interaction patterns.",
+      "Immersive creative build exploring cinematic UI and interaction patterns.",
     stack: ["TypeScript", "Creative"],
     github: "https://github.com/EAGLEVISIONDEV/iron-man",
+    live: "https://iron-man-jet.vercel.app",
     accent: "#f87171",
   },
   {
-    id: "trading",
-    title: "Stock Trading Bot",
-    tagline: "High-performance Rust bot",
+    id: "photography",
+    title: "Photography Portfolio",
+    tagline: "Visual gallery site",
     description:
-      "Advanced market trading bot engineered in Rust for speed, reliability, and systematic execution.",
-    stack: ["Rust", "Trading", "Systems"],
-    github: "https://github.com/EAGLEVISIONDEV/stock-market-trading-bot",
-    accent: "#4ade80",
+      "Elegant photography portfolio — image-led layout for showcasing visual work.",
+    stack: ["Next.js", "v0", "Gallery"],
+    github: "https://github.com/EAGLEVISIONDEV/v0-photography-portfolio-website",
+    live: "https://v0-photography-portfolio-website-mocha.vercel.app",
+    accent: "#e2e8f0",
+  },
+  {
+    id: "events",
+    title: "Events Landing",
+    tagline: "React events page",
+    description:
+      "Modern events landing — schedules, highlights, and promotional storytelling.",
+    stack: ["React", "v0", "Landing"],
+    github: "https://github.com/EAGLEVISIONDEV/v0-react-events-landing-page",
+    live: "https://v0-react-events-landing-page.vercel.app",
+    accent: "#f472b6",
+  },
+  {
+    id: "ai-voice",
+    title: "Romanian AI Assistant",
+    tagline: "Voice AI product",
+    description:
+      "AI voice assistant experience — conversational product UI and modern branding.",
+    stack: ["TypeScript", "AI", "Voice"],
+    github: "https://github.com/EAGLEVISIONDEV/ai-voice-agent",
+    live: "https://v0-romanian-ai-assistant.vercel.app",
+    accent: "#22d3ee",
+  },
+  {
+    id: "pfa",
+    title: "Popovici Octavian PFA",
+    tagline: "Services portfolio",
+    description:
+      "Professional services site for software development — clear packaging and branding.",
+    stack: ["Next.js", "TypeScript"],
+    github: "https://github.com/EAGLEVISIONDEV/popovici-octavian-pfa",
+    live: "https://popovici-octavian-pfa.vercel.app",
+    accent: "#60a5fa",
   },
 ];
 
@@ -136,10 +169,15 @@ export const skills = [
   "TypeScript",
   "React Three Fiber",
   "AI Agents",
-  "Python",
-  "Rust",
+  "Automation",
   "Framer Motion",
   "Vercel",
-  "Automation",
   "Product Design",
+  "CRM Platforms",
+  "Brand Sites",
 ] as const;
+
+/** Live page snapshot URL (works even when iframe is blocked). */
+export function liveSnapshot(url: string, width = 1400) {
+  return `https://image.thum.io/get/width/${width}/noanimate/${url}`;
+}

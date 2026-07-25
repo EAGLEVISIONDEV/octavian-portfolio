@@ -37,11 +37,12 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 font-[family-name:var(--font-display)] text-[clamp(2.8rem,8vw,5.5rem)] font-bold leading-[0.95] tracking-[-0.04em]"
+            className="mt-5 font-[family-name:var(--font-display)] text-[clamp(3rem,10vw,6rem)] font-bold leading-[0.92] tracking-[-0.04em]"
           >
-            {profile.name.split(" ")[0]}
-            <br />
-            <span className="gradient-text">{profile.name.split(" ").slice(1).join(" ")}</span>
+            <span className="gradient-text">{profile.brand}</span>
+            <span className="mt-2 block text-[0.42em] font-semibold tracking-[0.28em] text-text/90">
+              PORTFOLIO
+            </span>
           </motion.h1>
 
           <motion.p
@@ -63,7 +64,7 @@ export function Hero() {
               href="#work"
               className="rounded-full bg-accent px-6 py-3 text-xs font-bold uppercase tracking-[0.16em] text-[#041016] transition hover:bg-accent-2"
             >
-              View work
+              View live work
             </a>
             <a
               href={profile.github}
@@ -71,7 +72,7 @@ export function Hero() {
               rel="noopener noreferrer"
               className="rounded-full border border-white/15 px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-text transition hover:border-accent hover:text-accent"
             >
-              GitHub profile
+              GitHub
             </a>
           </motion.div>
         </div>

@@ -22,12 +22,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://octavian-portfolio.vercel.app"),
-  title: "Octavian Popovici — EAGLE VISION | 3D Portfolio",
+  title: "HERMYO PORTFOLIO — Live web work",
   description:
-    "Modern 3D portfolio of Octavian Popovici — AI products, automation, and premium web experiences from EAGLE VISION.",
+    "HERMYO PORTFOLIO — modern showcase of live websites and platforms with interactive 3D cards and real page previews.",
   openGraph: {
-    title: "Octavian Popovici — 3D Portfolio",
-    description: "Selected GitHub projects with live demos and 3D interactive cards.",
+    title: "HERMYO PORTFOLIO",
+    description: "Live demos with real page previews — OVB, Sebastian Morari, brand sites, and more.",
     type: "website",
   },
 };

@@ -1,13 +1,15 @@
-# Octavian Portfolio
+# HERMYO PORTFOLIO
 
-Modern **3D developer portfolio** for Octavian Popovici / EAGLE VISION.
+Modern 3D portfolio with **live page previews** on every card.
+
+## Live
+
+https://octavian-portfolio.vercel.app
 
 ## Stack
 
-- Next.js (App Router)
-- React Three Fiber + Drei (hero 3D)
-- Framer Motion (3D tilt cards, reveals)
-- Tailwind CSS v4
+- Next.js · React Three Fiber · Framer Motion · Tailwind
+- Live snapshots via thum.io + iframe embeds when allowed
 
 ## Dev
 
@@ -15,7 +17,3 @@ Modern **3D developer portfolio** for Octavian Popovici / EAGLE VISION.
 npm install
 npm run dev
 ```
-
-## Deploy
-
-Connected to Vercel via GitHub.

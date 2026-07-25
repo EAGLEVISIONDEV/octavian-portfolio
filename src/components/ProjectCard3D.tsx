@@ -9,6 +9,7 @@ import {
   useTransform,
 } from "framer-motion";
 import type { Project } from "@/lib/data";
+import { LivePreview } from "@/components/LivePreview";
 
 type Props = {
   project: Project;
@@ -23,11 +24,11 @@ export function ProjectCard3D({ project, index }: Props) {
   const mouseX = useSpring(x, { stiffness: 220, damping: 22 });
   const mouseY = useSpring(y, { stiffness: 220, damping: 22 });
 
-  const rotateX = useTransform(mouseY, [-0.5, 0.5], [12, -12]);
-  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-14, 14]);
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10]);
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-12, 12]);
   const glareX = useTransform(mouseX, [-0.5, 0.5], [0, 100]);
   const glareY = useTransform(mouseY, [-0.5, 0.5], [0, 100]);
-  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.18), transparent 45%)`;
+  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.16), transparent 45%)`;
 
   function onMove(e: React.MouseEvent) {
     const el = ref.current;
@@ -47,7 +48,7 @@ export function ProjectCard3D({ project, index }: Props) {
       initial={{ opacity: 0, y: 36 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-8%" }}
-      transition={{ duration: 0.7, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.7, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
       className="[perspective:1200px]"
     >
       <motion.div
@@ -55,12 +56,12 @@ export function ProjectCard3D({ project, index }: Props) {
         onMouseMove={onMove}
         onMouseLeave={onLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f16]/85 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)] transition-shadow duration-300 hover:shadow-[0_40px_100px_rgba(94,234,212,0.12)]"
+        className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f16]/90 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)] transition-shadow duration-300 hover:shadow-[0_40px_100px_rgba(94,234,212,0.12)] sm:p-5"
       >
         <motion.div
           aria-hidden
           style={{ background: glare }}
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         />
 
         <div
@@ -69,19 +70,25 @@ export function ProjectCard3D({ project, index }: Props) {
           style={{ background: `${project.accent}33` }}
         />
 
-        <div className="relative" style={{ transform: "translateZ(40px)" }}>
-          <div className="flex items-start justify-between gap-3">
+        <div className="relative z-[1]" style={{ transform: "translateZ(28px)" }}>
+          <LivePreview
+            url={project.live}
+            title={project.title}
+            iframeBlocked={project.iframeBlocked}
+          />
+
+          <div className="mt-5 flex items-start justify-between gap-3 px-1">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-muted">
                 {project.tagline}
               </p>
-              <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-text">
+              <h3 className="mt-1.5 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-text">
                 {project.title}
               </h3>
             </div>
             {project.featured && (
               <span
-                className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#041016]"
+                className="shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#041016]"
                 style={{ background: project.accent }}
               >
                 Featured
@@ -89,9 +96,9 @@ export function ProjectCard3D({ project, index }: Props) {
             )}
           </div>
 
-          <p className="mt-4 text-sm leading-relaxed text-muted">{project.description}</p>
+          <p className="mt-3 px-1 text-sm leading-relaxed text-muted">{project.description}</p>
 
-          <div className="mt-5 flex flex-wrap gap-2">
+          <div className="mt-4 flex flex-wrap gap-2 px-1">
             {project.stack.map((s) => (
               <span
                 key={s}
@@ -102,7 +109,15 @@ export function ProjectCard3D({ project, index }: Props) {
             ))}
           </div>
 
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3 px-1">
+            <a
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-full bg-accent px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#041016] transition hover:bg-accent-2"
+            >
+              Open live
+            </a>
             <a
               href={project.github}
               target="_blank"
@@ -111,23 +126,8 @@ export function ProjectCard3D({ project, index }: Props) {
             >
               GitHub
             </a>
-            {project.live && (
-              <a
-                href={project.live}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center rounded-full bg-accent px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#041016] transition hover:bg-accent-2"
-              >
-                Live demo
-              </a>
-            )}
           </div>
         </div>
-
-        <div
-          aria-hidden
-          className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-gradient-to-r from-transparent via-accent to-transparent transition duration-500 group-hover:scale-x-100"
-        />
       </motion.div>
     </motion.article>
   );

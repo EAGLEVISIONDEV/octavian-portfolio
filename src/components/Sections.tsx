@@ -14,13 +14,12 @@ export function Projects() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">Selected work</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">Live demos</p>
           <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight md:text-5xl">
-            Projects from GitHub
+            Sites you can open now
           </h2>
           <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-            A curated set of builds — AI platforms, brand sites, automation, and systems work.
-            Hover the cards for 3D tilt.
+            Every card embeds a live preview of the real page. Hover for 3D tilt — click to open the full site.
           </p>
         </motion.div>
 
@@ -69,12 +68,11 @@ export function About() {
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">About</p>
           <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight">
-            Building products that feel alive
+            Built under HERMYO
           </h2>
           <p className="mt-5 text-sm leading-relaxed text-muted md:text-base">
-            Under {profile.brand}, I ship AI agents, automation CRMs, trading systems, and premium
-            web experiences. The focus is always the same: modern visuals, real product depth, and
-            deployments that land.
+            HERMYO PORTFOLIO collects live websites and platforms — from brand landings and
+            photography sites to CRM automation and AI product UIs. Only shipped demos make the cut.
           </p>
         </div>
         <div className="glass relative overflow-hidden rounded-2xl p-8">
@@ -82,7 +80,7 @@ export function About() {
           <dl className="relative space-y-5 text-sm">
             <div>
               <dt className="text-[10px] uppercase tracking-[0.24em] text-muted">Studio</dt>
-              <dd className="mt-1 text-lg font-semibold">{profile.brand}</dd>
+              <dd className="mt-1 text-lg font-semibold">{profile.fullBrand}</dd>
             </div>
             <div>
               <dt className="text-[10px] uppercase tracking-[0.24em] text-muted">Based</dt>
@@ -134,7 +132,7 @@ export function Footer() {
   return (
     <footer className="border-t border-white/5 py-8">
       <div className="section-pad mx-auto flex max-w-6xl flex-col gap-3 text-xs text-muted sm:flex-row sm:justify-between">
-        <p>© {new Date().getFullYear()} {profile.name} · {profile.brand}</p>
+        <p>© {new Date().getFullYear()} {profile.fullBrand}</p>
         <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
           github.com/EAGLEVISIONDEV
         </a>
