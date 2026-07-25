@@ -1,35 +1,41 @@
 "use client";
 
-import { projects, skills, profile } from "@/lib/data";
-import { ProjectCard3D } from "@/components/ProjectCard3D";
+import {
+  projects,
+  demoLandings,
+  workNiches,
+  demoNiches,
+  skills,
+  profile,
+} from "@/lib/data";
+import { SearchableShowcase } from "@/components/SearchableShowcase";
 import { motion } from "framer-motion";
 
 export function Projects() {
   return (
-    <section id="work" className="relative scroll-mt-24 py-24 md:py-32">
-      <div className="section-pad mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">Live demos</p>
-          <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight md:text-5xl">
-            Sites you can open now
-          </h2>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-            Every card embeds a live preview of the real page. Hover for 3D tilt — click to open the full site.
-          </p>
-        </motion.div>
+    <SearchableShowcase
+      id="work"
+      eyebrow="Live products"
+      title="Work by niche"
+      subtitle="CRM, platforms, SaaS, and brand sites — filter or search, then click a card to open the live page."
+      items={projects}
+      niches={workNiches}
+    />
+  );
+}
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2">
-          {projects.map((p, i) => (
-            <ProjectCard3D key={p.id} project={p} index={i} />
-          ))}
-        </div>
-      </div>
-    </section>
+export function DemoLandings() {
+  return (
+    <div className="border-t border-white/5 bg-[#070a10]/60">
+      <SearchableShowcase
+        id="demos"
+        eyebrow="Demo landings"
+        title="Niche landing pages"
+        subtitle="Beauty, barber, dental, auto, spa, and more — searchable demos built for local businesses."
+        items={demoLandings}
+        niches={demoNiches}
+      />
+    </div>
   );
 }
 
@@ -71,8 +77,8 @@ export function About() {
             Built under HERMYO
           </h2>
           <p className="mt-5 text-sm leading-relaxed text-muted md:text-base">
-            HERMYO PORTFOLIO collects live websites and platforms — from brand landings and
-            photography sites to CRM automation and AI product UIs. Only shipped demos make the cut.
+            HERMYO PORTFOLIO collects live products and niche demo landings — from CRM platforms
+            and SaaS sites to beauty, dental, and auto business pages.
           </p>
         </div>
         <div className="glass relative overflow-hidden rounded-2xl p-8">
@@ -89,7 +95,12 @@ export function About() {
             <div>
               <dt className="text-[10px] uppercase tracking-[0.24em] text-muted">GitHub</dt>
               <dd className="mt-1">
-                <a href={profile.github} className="text-lg font-semibold text-accent hover:underline" target="_blank" rel="noopener noreferrer">
+                <a
+                  href={profile.github}
+                  className="text-lg font-semibold text-accent hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   @EAGLEVISIONDEV
                 </a>
               </dd>
@@ -107,12 +118,14 @@ export function Contact() {
       <div className="section-pad mx-auto max-w-6xl">
         <div className="glass relative overflow-hidden rounded-3xl px-8 py-14 text-center md:px-16">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(94,234,212,0.12),transparent_60%)]" />
-          <p className="relative text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">Contact</p>
+          <p className="relative text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">
+            Contact
+          </p>
           <h2 className="relative mt-4 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight md:text-5xl">
             Let&apos;s build the next one
           </h2>
           <p className="relative mx-auto mt-4 max-w-md text-sm text-muted">
-            Open for AI products, brand sites, and automation systems.
+            Open for CRM platforms, brand sites, and niche landing systems.
           </p>
           <a
             href={profile.github}
@@ -132,7 +145,9 @@ export function Footer() {
   return (
     <footer className="border-t border-white/5 py-8">
       <div className="section-pad mx-auto flex max-w-6xl flex-col gap-3 text-xs text-muted sm:flex-row sm:justify-between">
-        <p>© {new Date().getFullYear()} {profile.fullBrand}</p>
+        <p>
+          © {new Date().getFullYear()} {profile.fullBrand}
+        </p>
         <a href={profile.github} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
           github.com/EAGLEVISIONDEV
         </a>

@@ -84,10 +84,15 @@ export function ProjectCard3D({ project, index }: Props) {
 
           <div className="mt-5 flex items-start justify-between gap-3 px-1">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-muted">
-                {project.tagline}
-              </p>
-              <h3 className="mt-1.5 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-text">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent">
+                  {project.niche}
+                </span>
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted">
+                  {project.tagline}
+                </span>
+              </div>
+              <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-text">
                 {project.title}
               </h3>
             </div>
