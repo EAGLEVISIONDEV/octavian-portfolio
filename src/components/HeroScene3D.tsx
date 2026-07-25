@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Html, Sparkles } from "@react-three/drei";
 import { Suspense, useRef } from "react";
-import type { Group, Mesh } from "three";
+import type { Group } from "three";
 import { orbitLabels } from "@/lib/data";
 
 /** Saturn body + blue ring; labels ride on the ring and spin with it. */
@@ -12,15 +12,13 @@ function Saturn() {
   const ringSystem = useRef<Group>(null);
 
   useFrame((_, delta) => {
-    // Planet slow spin
     if (body.current) body.current.rotation.y += delta * 0.18;
-    // Ring + labels rotate together around Saturn (blue circle path)
     if (ringSystem.current) ringSystem.current.rotation.z += delta * 0.35;
   });
 
   return (
     <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.2}>
-      <group position={[0.3, 0.05, 0]} rotation={[0.42, -0.2, 0.08]}>
+      <group position={[0.85, 0.1, 0]} rotation={[0.48, -0.28, 0.1]} scale={1.15}>
         {/* Planet */}
         <group ref={body}>
           <mesh>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Syne, Manrope } from "next/font/google";
+import { Syne, DM_Sans } from "next/font/google";
 import "./globals.css";
 
 const display = Syne({
@@ -8,7 +8,7 @@ const display = Syne({
   weight: ["500", "600", "700", "800"],
 });
 
-const body = Manrope({
+const body = DM_Sans({
   variable: "--font-body",
   subsets: ["latin", "latin-ext"],
   weight: ["300", "400", "500", "600", "700"],
@@ -22,12 +22,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://octavian-portfolio.vercel.app"),
-  title: "HERMYO PORTFOLIO — Live web work",
+  title: "HERMYO PORTFOLIO — Out of ordinary web",
   description:
-    "HERMYO PORTFOLIO — modern showcase of live websites and platforms with interactive 3D cards and real page previews.",
+    "HERMYO PORTFOLIO — cinematic showcase of live products and one standout landing page per niche.",
   openGraph: {
     title: "HERMYO PORTFOLIO",
-    description: "Live demos with real page previews — OVB, Sebastian Morari, brand sites, and more.",
+    description: "Live work that works — OVB Next, Dobre Diana, Sebastian Morari, and niche demos.",
     type: "website",
   },
 };

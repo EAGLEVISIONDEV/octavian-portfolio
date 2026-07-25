@@ -103,6 +103,67 @@ body {
   mask-image: radial-gradient(ellipse at center, black 15%, transparent 72%);
 }
 
+.hero-aurora {
+  background:
+    radial-gradient(ellipse 80% 55% at 78% 38%, rgba(56, 189, 248, 0.18), transparent 55%),
+    radial-gradient(ellipse 60% 45% at 18% 70%, rgba(94, 234, 212, 0.12), transparent 50%),
+    radial-gradient(ellipse 40% 30% at 50% 10%, rgba(125, 211, 252, 0.08), transparent 60%),
+    linear-gradient(165deg, #030508 0%, #05070b 45%, #071018 100%);
+}
+
+.hero-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  mix-blend-mode: overlay;
+}
+
+.hero-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  background: var(--accent);
+  padding: 0.85rem 1.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #041016;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.25s ease,
+    box-shadow 0.35s ease;
+  box-shadow: 0 0 0 0 rgba(94, 234, 212, 0.35);
+}
+
+.hero-cta-primary:hover {
+  background: var(--accent-2);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(56, 189, 248, 0.28);
+}
+
+.hero-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0.85rem 1.6rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+  transition:
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-cta-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .gradient-text {
     animation: none;

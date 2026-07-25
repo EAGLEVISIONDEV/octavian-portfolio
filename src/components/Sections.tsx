@@ -17,7 +17,7 @@ export function Projects() {
       id="work"
       eyebrow="Live products"
       title="Work by niche"
-      subtitle="CRM, platforms, SaaS, and brand sites — filter or search, then click a card to open the live page."
+      subtitle="Live production sites — OVB Next, dobrediana.ro, sebastianmorari.ro, and more. Click any card to open."
       items={projects}
       niches={workNiches}
     />
@@ -30,8 +30,8 @@ export function DemoLandings() {
       <SearchableShowcase
         id="demos"
         eyebrow="Demo landings"
-        title="Niche landing pages"
-        subtitle="Beauty, barber, dental, auto, spa, and more — searchable demos built for local businesses."
+        title="One landing per niche"
+        subtitle="Eight niches. Eight live demos — beauty, barber, dental, clinic, auto, café, spa, and hospitality."
         items={demoLandings}
         niches={demoNiches}
       />

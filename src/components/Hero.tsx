@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { profile } from "@/lib/data";
 
 const HeroScene3D = dynamic(
@@ -10,73 +11,87 @@ const HeroScene3D = dynamic(
 );
 
 export function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const sceneY = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const sceneOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.15]);
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+
   return (
-    <section className="relative min-h-[100svh] overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute inset-0 grid-mask opacity-70" />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,rgba(94,234,212,0.12),transparent_55%)]"
-      />
+    <section ref={ref} className="relative min-h-[100svh] overflow-hidden">
+      {/* Full-bleed atmosphere */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 hero-aurora" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 hero-noise opacity-[0.35]" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 grid-mask opacity-40" />
 
-      <div className="absolute inset-y-0 right-0 w-full opacity-80 lg:w-[55%]">
+      {/* Dominant edge-to-edge Saturn plane */}
+      <motion.div
+        style={{ y: sceneY, opacity: sceneOpacity }}
+        className="pointer-events-none absolute inset-0 z-0"
+      >
         <HeroScene3D />
-      </div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#05070b] via-[#05070b]/55 to-transparent lg:via-[#05070b]/25" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#05070b] to-transparent" />
+      </motion.div>
 
-      <div className="section-pad relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end pb-24 pt-28 lg:justify-center lg:pb-16">
-        <div className="max-w-xl">
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-[11px] font-semibold uppercase tracking-[0.36em] text-accent"
+      <motion.div
+        style={{ y: copyY }}
+        className="section-pad relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end pb-20 pt-28 lg:justify-center lg:pb-16"
+      >
+        <div className="max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
+            animate={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-3"
           >
-            {profile.role}
-          </motion.p>
+            <span className="h-px w-8 bg-accent" />
+            <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-accent">
+              {profile.role}
+            </p>
+          </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 font-[family-name:var(--font-display)] text-[clamp(3rem,10vw,6rem)] font-bold leading-[0.92] tracking-[-0.04em]"
+            transition={{ duration: 1, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-6 font-[family-name:var(--font-display)] text-[clamp(3.4rem,12vw,7.5rem)] font-extrabold leading-[0.86] tracking-[-0.05em]"
           >
-            <span className="gradient-text">{profile.brand}</span>
-            <span className="mt-2 block text-[0.42em] font-semibold tracking-[0.28em] text-text/90">
+            <span className="gradient-text drop-shadow-[0_0_40px_rgba(94,234,212,0.25)]">
+              {profile.brand}
+            </span>
+            <span className="mt-3 block text-[0.28em] font-semibold tracking-[0.42em] text-text/75">
               PORTFOLIO
             </span>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25 }}
-            className="mt-6 max-w-md text-base leading-relaxed text-muted"
+            transition={{ duration: 0.8, delay: 0.32 }}
+            className="mt-7 max-w-md text-base leading-relaxed text-muted md:text-lg"
           >
             {profile.bio}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="mt-9 flex flex-wrap gap-3"
+            transition={{ duration: 0.75, delay: 0.48 }}
+            className="mt-10 flex flex-wrap gap-3"
           >
-            <a
-              href="#work"
-              className="rounded-full bg-accent px-6 py-3 text-xs font-bold uppercase tracking-[0.16em] text-[#041016] transition hover:bg-accent-2"
-            >
-              View live work
+            <a href="#work" className="hero-cta-primary">
+              Enter the orbit
             </a>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-white/15 px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-text transition hover:border-accent hover:text-accent"
-            >
-              GitHub
+            <a href="#demos" className="hero-cta-ghost">
+              Niche landings
             </a>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
