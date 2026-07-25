@@ -4,12 +4,13 @@ export type Project = {
   tagline: string;
   description: string;
   stack: string[];
-  github: string;
+  github?: string;
+  /** Click target — the live website */
   live: string;
+  /** Optional URL used only for the card snapshot (if custom domain is new / blocked) */
+  previewUrl?: string;
   accent: string;
   featured?: boolean;
-  /** Some apps send X-Frame-Options: DENY — use screenshot-only preview */
-  iframeBlocked?: boolean;
 };
 
 export const profile = {
@@ -22,30 +23,41 @@ export const profile = {
   location: "Romania",
 } as const;
 
-/** Only projects with a working live demo. */
+/** Ordered live sites only. */
 export const projects: Project[] = [
   {
-    id: "ovb",
-    title: "OVB Automation",
-    tagline: "CRM · sales platform",
+    id: "ovbnext",
+    title: "OVB Next",
+    tagline: "Automation platform",
     description:
-      "Complete OVB automation CRM — pipelines, leads, and operational workflows in one modern platform.",
+      "OVB automation CRM — pipelines, leads, and sales workflows in one modern platform.",
     stack: ["JavaScript", "CRM", "Automation"],
     github: "https://github.com/EAGLEVISIONDEV/OVB-automation",
-    live: "https://ovb-automation.vercel.app",
+    live: "https://www.ovbnext.com",
     accent: "#fb7185",
     featured: true,
-    iframeBlocked: true,
+  },
+  {
+    id: "dobrediana",
+    title: "Dobre Diana",
+    tagline: "Personal brand",
+    description:
+      "Modern personal brand website for Dobre Diana — clean layout and strong presence.",
+    stack: ["Next.js", "Brand", "TypeScript"],
+    live: "https://dobrediana.com",
+    accent: "#f9a8d4",
+    featured: true,
   },
   {
     id: "sebastian",
     title: "Sebastian Morari",
     tagline: "Personal brand site",
     description:
-      "Polished personal website for Sebastian Morari — modern layout and strong visual hierarchy.",
-    stack: ["Next.js", "v0", "TypeScript"],
+      "Polished website for Sebastian Morari — modern hierarchy and clear storytelling.",
+    stack: ["Next.js", "Brand", "TypeScript"],
     github: "https://github.com/EAGLEVISIONDEV/v0-sebastian",
-    live: "https://v0-sebastian-morari.vercel.app",
+    live: "https://sebastianmorari.com",
+    previewUrl: "https://v0-sebastian-morari.vercel.app",
     accent: "#38bdf8",
     featured: true,
   },
@@ -86,81 +98,27 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: "matei",
-    title: "Matei",
+    id: "kreya",
+    title: "Kreya",
     tagline: "Modern brand site",
     description:
-      "Contemporary personal / brand landing with clean structure and responsive design.",
-    stack: ["Next.js", "v0", "TypeScript"],
-    github: "https://github.com/EAGLEVISIONDEV/v0-matei",
-    live: "https://v0-matei.vercel.app",
+      "Contemporary brand experience — sharp visuals and a responsive product presence.",
+    stack: ["Next.js", "Brand", "TypeScript"],
+    live: "https://kreya.vercel.app",
     accent: "#34d399",
+    featured: true,
   },
   {
-    id: "saas",
-    title: "SaaS Landing",
-    tagline: "Product marketing page",
+    id: "hermyo",
+    title: "Hermyo",
+    tagline: "SaaS product site",
     description:
-      "High-converting SaaS landing page — modern sections, clear CTAs, product-focused layout.",
-    stack: ["Next.js", "v0", "Marketing"],
+      "Hermyo product landing — modern SaaS marketing, clear value props, and conversion focus.",
+    stack: ["Next.js", "SaaS", "Marketing"],
     github: "https://github.com/EAGLEVISIONDEV/v0-saa-s-landing-page",
-    live: "https://v0-saa-s-landing-page-orcin-xi.vercel.app",
-    accent: "#a78bfa",
-  },
-  {
-    id: "iron-man",
-    title: "Iron Man",
-    tagline: "Interactive experience",
-    description:
-      "Immersive creative build exploring cinematic UI and interaction patterns.",
-    stack: ["TypeScript", "Creative"],
-    github: "https://github.com/EAGLEVISIONDEV/iron-man",
-    live: "https://iron-man-jet.vercel.app",
-    accent: "#f87171",
-  },
-  {
-    id: "photography",
-    title: "Photography Portfolio",
-    tagline: "Visual gallery site",
-    description:
-      "Elegant photography portfolio — image-led layout for showcasing visual work.",
-    stack: ["Next.js", "v0", "Gallery"],
-    github: "https://github.com/EAGLEVISIONDEV/v0-photography-portfolio-website",
-    live: "https://v0-photography-portfolio-website-mocha.vercel.app",
-    accent: "#e2e8f0",
-  },
-  {
-    id: "events",
-    title: "Events Landing",
-    tagline: "React events page",
-    description:
-      "Modern events landing — schedules, highlights, and promotional storytelling.",
-    stack: ["React", "v0", "Landing"],
-    github: "https://github.com/EAGLEVISIONDEV/v0-react-events-landing-page",
-    live: "https://v0-react-events-landing-page.vercel.app",
-    accent: "#f472b6",
-  },
-  {
-    id: "ai-voice",
-    title: "Romanian AI Assistant",
-    tagline: "Voice AI product",
-    description:
-      "AI voice assistant experience — conversational product UI and modern branding.",
-    stack: ["TypeScript", "AI", "Voice"],
-    github: "https://github.com/EAGLEVISIONDEV/ai-voice-agent",
-    live: "https://v0-romanian-ai-assistant.vercel.app",
-    accent: "#22d3ee",
-  },
-  {
-    id: "pfa",
-    title: "Popovici Octavian PFA",
-    tagline: "Services portfolio",
-    description:
-      "Professional services site for software development — clear packaging and branding.",
-    stack: ["Next.js", "TypeScript"],
-    github: "https://github.com/EAGLEVISIONDEV/popovici-octavian-pfa",
-    live: "https://popovici-octavian-pfa.vercel.app",
-    accent: "#60a5fa",
+    live: "https://hermyo.com",
+    accent: "#5eead4",
+    featured: true,
   },
 ];
 
@@ -177,7 +135,7 @@ export const skills = [
   "Brand Sites",
 ] as const;
 
-/** Live page snapshot URL (works even when iframe is blocked). */
-export function liveSnapshot(url: string, width = 1400) {
+/** Live page snapshot (lightweight still — no iframe cost). */
+export function liveSnapshot(url: string, width = 1200) {
   return `https://image.thum.io/get/width/${width}/noanimate/${url}`;
 }

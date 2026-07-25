@@ -17,18 +17,18 @@ type Props = {
 };
 
 export function ProjectCard3D({ project, index }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const mouseX = useSpring(x, { stiffness: 220, damping: 22 });
-  const mouseY = useSpring(y, { stiffness: 220, damping: 22 });
+  const mouseX = useSpring(x, { stiffness: 200, damping: 24 });
+  const mouseY = useSpring(y, { stiffness: 200, damping: 24 });
 
-  const rotateX = useTransform(mouseY, [-0.5, 0.5], [10, -10]);
-  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-12, 12]);
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], [8, -8]);
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], [-10, 10]);
   const glareX = useTransform(mouseX, [-0.5, 0.5], [0, 100]);
   const glareY = useTransform(mouseY, [-0.5, 0.5], [0, 100]);
-  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.16), transparent 45%)`;
+  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.14), transparent 45%)`;
 
   function onMove(e: React.MouseEvent) {
     const el = ref.current;
@@ -43,20 +43,25 @@ export function ProjectCard3D({ project, index }: Props) {
     y.set(0);
   }
 
+  const previewSrc = project.previewUrl ?? project.live;
+
   return (
     <motion.article
-      initial={{ opacity: 0, y: 36 }}
+      initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-8%" }}
-      transition={{ duration: 0.7, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, margin: "-6%" }}
+      transition={{ duration: 0.55, delay: Math.min(index, 4) * 0.04, ease: [0.22, 1, 0.36, 1] }}
       className="[perspective:1200px]"
     >
-      <motion.div
+      <motion.a
+        href={project.live}
+        target="_blank"
+        rel="noopener noreferrer"
         ref={ref}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f16]/90 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)] transition-shadow duration-300 hover:shadow-[0_40px_100px_rgba(94,234,212,0.12)] sm:p-5"
+        className="group relative block h-full overflow-hidden rounded-2xl border border-white/10 bg-[#0b0f16]/90 p-4 shadow-[0_30px_80px_rgba(0,0,0,0.35)] transition-shadow duration-300 hover:shadow-[0_40px_100px_rgba(94,234,212,0.12)] sm:p-5"
       >
         <motion.div
           aria-hidden
@@ -70,11 +75,11 @@ export function ProjectCard3D({ project, index }: Props) {
           style={{ background: `${project.accent}33` }}
         />
 
-        <div className="relative z-[1]" style={{ transform: "translateZ(28px)" }}>
+        <div className="relative z-[1]" style={{ transform: "translateZ(24px)" }}>
           <LivePreview
-            url={project.live}
+            url={previewSrc}
+            displayUrl={project.live}
             title={project.title}
-            iframeBlocked={project.iframeBlocked}
           />
 
           <div className="mt-5 flex items-start justify-between gap-3 px-1">
@@ -109,26 +114,34 @@ export function ProjectCard3D({ project, index }: Props) {
             ))}
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-3 px-1">
-            <a
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-full bg-accent px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#041016] transition hover:bg-accent-2"
-            >
-              Open live
-            </a>
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-full border border-white/15 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-text transition hover:border-accent hover:text-accent"
-            >
-              GitHub
-            </a>
+          <div className="mt-6 flex items-center justify-between gap-3 px-1">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
+              Open site →
+            </span>
+            {project.github && (
+              <span
+                role="link"
+                tabIndex={0}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(project.github, "_blank", "noopener,noreferrer");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open(project.github, "_blank", "noopener,noreferrer");
+                  }
+                }}
+                className="rounded-full border border-white/15 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted transition hover:border-accent hover:text-accent"
+              >
+                GitHub
+              </span>
+            )}
           </div>
         </div>
-      </motion.div>
+      </motion.a>
     </motion.article>
   );
 }

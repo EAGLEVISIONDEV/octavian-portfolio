@@ -57,7 +57,7 @@ function Scene() {
       <pointLight position={[-3, 2, 2]} intensity={0.8} color="#5eead4" />
       <Orb />
       <Rings />
-      <Sparkles count={60} scale={[10, 6, 6]} size={2.2} speed={0.35} color="#5eead4" opacity={0.45} />
+      <Sparkles count={28} scale={[10, 6, 6]} size={2} speed={0.3} color="#5eead4" opacity={0.4} />
     </>
   );
 }
