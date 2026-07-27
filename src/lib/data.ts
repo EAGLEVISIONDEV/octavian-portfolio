@@ -236,5 +236,6 @@ export const skills = [
 ] as const;
 
 export function liveSnapshot(url: string, width = 1200) {
-  return `https://image.thum.io/get/width/${width}/noanimate/${url}`;
+  // wait/3 = hold 3s after load so JS/animations settle before capture
+  return `https://image.thum.io/get/width/${width}/crop/800/wait/3/noanimate/${url}`;
 }
