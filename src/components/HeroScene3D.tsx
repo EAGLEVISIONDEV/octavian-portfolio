@@ -124,22 +124,22 @@ function DeformablePlanet({
       const nz = oz / len;
       const dot = Math.min(1, Math.max(-1, nx * hx + ny * hy + nz * hz));
       const ang = Math.acos(dot);
-      const influence = Math.exp(-(ang * ang) * 9.5);
-      const ripple = Math.exp(-(ang * ang) * 3.2) * Math.sin(ang * 10 - s * 2.5) * 0.04;
-      const scale = 1 + s * (influence * 0.26 - (1 - influence) * 0.045 + ripple);
+      const influence = Math.exp(-(ang * ang) * 7.5);
+      const ripple = Math.exp(-(ang * ang) * 2.8) * Math.sin(ang * 9 - s * 3) * 0.07;
+      const scale = 1 + s * (influence * 0.42 - (1 - influence) * 0.08 + ripple);
       pos.setXYZ(i, ox * scale, oy * scale, oz * scale);
     }
     pos.needsUpdate = true;
     mesh.geometry.computeVertexNormals();
 
     if (glowRef.current) {
-      const g = 1.07 + pulse.current * 0.06;
+      const g = 1.07 + pulse.current * 0.1;
       glowRef.current.scale.setScalar(g);
     }
     if (matRef.current) {
       matRef.current.emissive.copy(emissive).lerp(emissiveHot, pulse.current);
-      matRef.current.emissiveIntensity = 0.2 + pulse.current * 0.55;
-      matRef.current.metalness = 0.45 + pulse.current * 0.2;
+      matRef.current.emissiveIntensity = 0.2 + pulse.current * 0.85;
+      matRef.current.metalness = 0.45 + pulse.current * 0.25;
     }
   });
 
@@ -147,11 +147,15 @@ function DeformablePlanet({
     <>
       <mesh
         ref={meshRef}
+        onPointerOver={(e: ThreeEvent<PointerEvent>) => {
+          e.stopPropagation();
+          hoverRef.current = true;
+          document.body.style.cursor = "pointer";
+        }}
         onPointerMove={(e: ThreeEvent<PointerEvent>) => {
           e.stopPropagation();
           hoverRef.current = true;
           hitLocal.current.copy(e.point);
-          // Convert world hit into planet-local space
           meshRef.current?.worldToLocal(hitLocal.current);
           document.body.style.cursor = "pointer";
         }}
@@ -169,6 +173,27 @@ function DeformablePlanet({
           emissive="#0f766e"
           emissiveIntensity={0.2}
         />
+      </mesh>
+      {/* Slightly larger invisible hit target so hover is easier to catch */}
+      <mesh
+        visible={false}
+        onPointerOver={(e: ThreeEvent<PointerEvent>) => {
+          e.stopPropagation();
+          hoverRef.current = true;
+        }}
+        onPointerMove={(e: ThreeEvent<PointerEvent>) => {
+          e.stopPropagation();
+          hoverRef.current = true;
+          hitLocal.current.copy(e.point);
+          meshRef.current?.worldToLocal(hitLocal.current);
+        }}
+        onPointerOut={() => {
+          hoverRef.current = false;
+          document.body.style.cursor = "auto";
+        }}
+      >
+        <sphereGeometry args={[PLANET_RADIUS * 1.2, 32, 32]} />
+        <meshBasicMaterial />
       </mesh>
       <mesh ref={glowRef} scale={1.07}>
         <sphereGeometry args={[PLANET_RADIUS, 48, 48]} />

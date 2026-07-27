@@ -45,9 +45,9 @@ export function Hero() {
 
       <motion.div
         style={{ y: copyY }}
-        className="section-pad relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end pb-20 pt-28 lg:justify-center lg:pb-16"
+        className="section-pad pointer-events-none relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end pb-20 pt-28 lg:justify-center lg:pb-16"
       >
-        <div className="max-w-2xl">
+        <div className="pointer-events-auto max-w-2xl">
           <motion.div
             initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
             animate={{ opacity: 1, clipPath: "inset(0 0% 0 0)" }}
