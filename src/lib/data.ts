@@ -79,7 +79,6 @@ export const projects: Project[] = [
     stack: ["Next.js", "Brand", "TypeScript"],
     niche: "Brand",
     live: "https://kreya.ro",
-    previewUrl: "https://kreya.vercel.app",
     accent: "#34d399",
     featured: true,
   },
