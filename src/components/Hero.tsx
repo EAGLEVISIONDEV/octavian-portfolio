@@ -30,11 +30,17 @@ export function Hero() {
 
       <motion.div
         style={{ y: sceneY, opacity: sceneOpacity }}
-        className="pointer-events-none absolute inset-0 z-0"
+        className="absolute inset-0 z-0"
       >
         <HeroScene3D />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#05070b] via-[#05070b]/55 to-transparent lg:via-[#05070b]/25" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#05070b] to-transparent" />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#05070b] via-[#05070b]/55 to-transparent lg:via-[#05070b]/25"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#05070b] to-transparent"
+        />
       </motion.div>
 
       <motion.div

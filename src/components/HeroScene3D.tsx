@@ -1,10 +1,10 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, ThreeEvent, useFrame } from "@react-three/fiber";
 import { Float, Html, Sparkles } from "@react-three/drei";
 import { Suspense, useMemo, useRef, useState, type MutableRefObject } from "react";
-import type { Group, Mesh } from "three";
-import { Vector3 } from "three";
+import type { Group, Mesh, MeshStandardMaterial } from "three";
+import { Color, MathUtils, Vector3 } from "three";
 import { useLocale } from "@/lib/i18n";
 
 const PLANET_RADIUS = 1.12;
@@ -21,25 +21,35 @@ function OrbitLabel({
 }) {
   const marker = useRef<Group>(null);
   const [hidden, setHidden] = useState(false);
-  const tmp = useMemo(() => ({ label: new Vector3(), cam: new Vector3(), toLabel: new Vector3(), toCam: new Vector3() }), []);
+  const tmp = useMemo(
+    () => ({
+      label: new Vector3(),
+      cam: new Vector3(),
+      toLabel: new Vector3(),
+      toCam: new Vector3(),
+      camToLabel: new Vector3(),
+      camToCenter: new Vector3(),
+      closest: new Vector3(),
+    }),
+    [],
+  );
 
   useFrame(({ camera }) => {
     if (!marker.current) return;
     marker.current.getWorldPosition(tmp.label);
     const center = planetWorld.current;
 
-    // Hide when label is on the far side of the planet (behind the ball from camera).
     tmp.toLabel.copy(tmp.label).sub(center);
     tmp.toCam.copy(camera.position).sub(center);
     const behind = tmp.toLabel.dot(tmp.toCam) < 0;
 
-    // Also hide if the camera→label segment comes within the planet sphere.
     tmp.cam.copy(camera.position);
-    const camToLabel = tmp.label.clone().sub(tmp.cam);
-    const camToCenter = center.clone().sub(tmp.cam);
-    const t = Math.max(0, Math.min(1, camToCenter.dot(camToLabel) / camToLabel.lengthSq()));
-    const closest = tmp.cam.clone().add(camToLabel.multiplyScalar(t));
-    const intersects = closest.distanceTo(center) < PLANET_RADIUS * 0.98;
+    tmp.camToLabel.copy(tmp.label).sub(tmp.cam);
+    tmp.camToCenter.copy(center).sub(tmp.cam);
+    const lenSq = tmp.camToLabel.lengthSq() || 1;
+    const t = Math.max(0, Math.min(1, tmp.camToCenter.dot(tmp.camToLabel) / lenSq));
+    tmp.closest.copy(tmp.cam).addScaledVector(tmp.camToLabel, t);
+    const intersects = tmp.closest.distanceTo(center) < PLANET_RADIUS * 0.98;
 
     const next = behind || intersects;
     setHidden((prev) => (prev === next ? prev : next));
@@ -50,7 +60,11 @@ function OrbitLabel({
 
   return (
     <group ref={marker} position={[x, y, 0]}>
-      <Html center distanceFactor={7.5} style={{ pointerEvents: "none", opacity: hidden ? 0 : 1, transition: "opacity 180ms ease" }}>
+      <Html
+        center
+        distanceFactor={7.5}
+        style={{ pointerEvents: "none", opacity: hidden ? 0 : 1, transition: "opacity 180ms ease" }}
+      >
         <span
           className="whitespace-nowrap rounded-full border border-sky-400/40 bg-[#071018]/90 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-sky-300 shadow-[0_0_18px_rgba(56,189,248,0.35)] backdrop-blur-sm sm:text-[10px]"
           style={{ visibility: hidden ? "hidden" : "visible" }}
@@ -62,17 +76,126 @@ function OrbitLabel({
   );
 }
 
+/** Soft jelly planet — bulges toward the pointer, reforms when you leave. */
+function DeformablePlanet({
+  meshRef,
+  hoverRef,
+  hitLocal,
+}: {
+  meshRef: MutableRefObject<Mesh | null>;
+  hoverRef: MutableRefObject<boolean>;
+  hitLocal: MutableRefObject<Vector3>;
+}) {
+  const glowRef = useRef<Mesh>(null);
+  const matRef = useRef<MeshStandardMaterial>(null);
+  const originals = useRef<Float32Array | null>(null);
+  const strength = useRef(0);
+  const pulse = useRef(0);
+  const emissive = useMemo(() => new Color("#0f766e"), []);
+  const emissiveHot = useMemo(() => new Color("#2dd4bf"), []);
+
+  useFrame((_, delta) => {
+    const mesh = meshRef.current;
+    if (!mesh) return;
+
+    if (!originals.current) {
+      originals.current = new Float32Array(mesh.geometry.attributes.position.array as Float32Array);
+    }
+    const orig = originals.current;
+
+    strength.current = MathUtils.damp(strength.current, hoverRef.current ? 1 : 0, 7, delta);
+    pulse.current = MathUtils.damp(pulse.current, hoverRef.current ? 1 : 0, 5, delta);
+
+    const pos = mesh.geometry.attributes.position;
+    const hit = hitLocal.current;
+    const hitLen = hit.length() || 1;
+    const hx = hit.x / hitLen;
+    const hy = hit.y / hitLen;
+    const hz = hit.z / hitLen;
+    const s = strength.current;
+
+    for (let i = 0; i < pos.count; i++) {
+      const ox = orig[i * 3];
+      const oy = orig[i * 3 + 1];
+      const oz = orig[i * 3 + 2];
+      const len = Math.hypot(ox, oy, oz) || 1;
+      const nx = ox / len;
+      const ny = oy / len;
+      const nz = oz / len;
+      const dot = Math.min(1, Math.max(-1, nx * hx + ny * hy + nz * hz));
+      const ang = Math.acos(dot);
+      const influence = Math.exp(-(ang * ang) * 9.5);
+      const ripple = Math.exp(-(ang * ang) * 3.2) * Math.sin(ang * 10 - s * 2.5) * 0.04;
+      const scale = 1 + s * (influence * 0.26 - (1 - influence) * 0.045 + ripple);
+      pos.setXYZ(i, ox * scale, oy * scale, oz * scale);
+    }
+    pos.needsUpdate = true;
+    mesh.geometry.computeVertexNormals();
+
+    if (glowRef.current) {
+      const g = 1.07 + pulse.current * 0.06;
+      glowRef.current.scale.setScalar(g);
+    }
+    if (matRef.current) {
+      matRef.current.emissive.copy(emissive).lerp(emissiveHot, pulse.current);
+      matRef.current.emissiveIntensity = 0.2 + pulse.current * 0.55;
+      matRef.current.metalness = 0.45 + pulse.current * 0.2;
+    }
+  });
+
+  return (
+    <>
+      <mesh
+        ref={meshRef}
+        onPointerMove={(e: ThreeEvent<PointerEvent>) => {
+          e.stopPropagation();
+          hoverRef.current = true;
+          hitLocal.current.copy(e.point);
+          // Convert world hit into planet-local space
+          meshRef.current?.worldToLocal(hitLocal.current);
+          document.body.style.cursor = "pointer";
+        }}
+        onPointerOut={() => {
+          hoverRef.current = false;
+          document.body.style.cursor = "auto";
+        }}
+      >
+        <sphereGeometry args={[PLANET_RADIUS, 96, 96]} />
+        <meshStandardMaterial
+          ref={matRef}
+          color="#6fc4b4"
+          roughness={0.28}
+          metalness={0.5}
+          emissive="#0f766e"
+          emissiveIntensity={0.2}
+        />
+      </mesh>
+      <mesh ref={glowRef} scale={1.07}>
+        <sphereGeometry args={[PLANET_RADIUS, 48, 48]} />
+        <meshBasicMaterial color="#5eead4" transparent opacity={0.08} />
+      </mesh>
+    </>
+  );
+}
+
 function Saturn() {
   const body = useRef<Group>(null);
   const ringSystem = useRef<Group>(null);
   const planetMesh = useRef<Mesh>(null);
   const root = useRef<Group>(null);
   const planetWorld = useRef(new Vector3());
+  const hoverRef = useRef(false);
+  const hitLocal = useRef(new Vector3(0, 0, PLANET_RADIUS));
+  const ringTilt = useRef(0);
   const { t } = useLocale();
 
   useFrame((_, delta) => {
-    if (body.current) body.current.rotation.y += delta * 0.18;
-    if (ringSystem.current) ringSystem.current.rotation.z += delta * 0.35;
+    if (body.current) body.current.rotation.y += delta * (hoverRef.current ? 0.28 : 0.18);
+    if (ringSystem.current) {
+      ringSystem.current.rotation.z += delta * (hoverRef.current ? 0.55 : 0.35);
+      ringTilt.current = MathUtils.damp(ringTilt.current, hoverRef.current ? 0.08 : 0, 6, delta);
+      ringSystem.current.rotation.x = Math.PI / 2.05 + ringTilt.current;
+    }
     if (root.current) root.current.getWorldPosition(planetWorld.current);
   });
 
@@ -80,20 +203,7 @@ function Saturn() {
     <Float speed={0.8} rotationIntensity={0.08} floatIntensity={0.2}>
       <group ref={root} position={[0.85, 0.1, 0]} rotation={[0.48, -0.28, 0.1]} scale={1.15}>
         <group ref={body}>
-          <mesh ref={planetMesh}>
-            <sphereGeometry args={[PLANET_RADIUS, 48, 48]} />
-            <meshStandardMaterial
-              color="#6fc4b4"
-              roughness={0.35}
-              metalness={0.45}
-              emissive="#0f766e"
-              emissiveIntensity={0.2}
-            />
-          </mesh>
-          <mesh scale={1.07}>
-            <sphereGeometry args={[PLANET_RADIUS, 32, 32]} />
-            <meshBasicMaterial color="#5eead4" transparent opacity={0.07} />
-          </mesh>
+          <DeformablePlanet meshRef={planetMesh} hoverRef={hoverRef} hitLocal={hitLocal} />
         </group>
 
         <group ref={ringSystem} rotation={[Math.PI / 2.05, 0.12, 0]}>
@@ -154,6 +264,7 @@ export function HeroScene3D({ className = "" }: { className?: string }) {
         dpr={[1, 1.5]}
         camera={{ position: [0, 0.2, 5.5], fov: 40 }}
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
+        style={{ touchAction: "none" }}
       >
         <Suspense fallback={null}>
           <Scene />
