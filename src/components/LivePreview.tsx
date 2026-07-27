@@ -13,7 +13,7 @@ type Props = {
 
 /**
  * Lazy live preview: loads snapshot only when near viewport.
- * Snapshot URL waits 3s on thum.io so the page is visually settled.
+ * Snapshot URL waits 10s on thum.io so the page is visually settled.
  * No iframes — avoids multi-site JS/CPU lag.
  */
 export function LivePreview({ url, displayUrl, title }: Props) {
@@ -25,7 +25,7 @@ export function LivePreview({ url, displayUrl, title }: Props) {
   const snapshot = liveSnapshot(url);
 
   // Small client delay before requesting the shot so cards stagger
-  // and the service applies its 3s render wait cleanly.
+  // and the service applies its 10s render wait cleanly.
   useEffect(() => {
     if (!inView) return;
     const t = window.setTimeout(() => setReady(true), 300);
