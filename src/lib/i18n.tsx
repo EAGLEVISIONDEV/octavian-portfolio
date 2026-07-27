@@ -63,7 +63,7 @@ const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "Produse live",
       title: "Lucrări pe nișă",
       subtitle:
-        "Site-uri de producție — OVB Next, dobrediana.ro, sebastianmorari.ro, eidan.ro, kreya.ro, aiflex.ro și altele. Click pe card pentru a deschide.",
+        "Site-uri de producție — OVB Next, dobrediana.ro, sebastianmorari.ro, eidan.ro, kreya.ro și altele. Click pe card pentru a deschide.",
     },
     demos: {
       eyebrow: "Landing-uri demo",
@@ -224,7 +224,7 @@ const dictionaries: Record<Locale, Dictionary> = {
       eyebrow: "Live products",
       title: "Work by niche",
       subtitle:
-        "Live production sites — OVB Next, dobrediana.ro, sebastianmorari.ro, eidan.ro, kreya.ro, aiflex.ro, and more. Click any card to open.",
+        "Live production sites — OVB Next, dobrediana.ro, sebastianmorari.ro, eidan.ro, kreya.ro, and more. Click any card to open.",
     },
     demos: {
       eyebrow: "Demo landings",

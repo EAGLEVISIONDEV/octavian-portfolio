@@ -83,15 +83,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: "aiflex",
-    title: "AIFlex",
-    stack: ["Next.js", "AI", "SaaS"],
-    niche: "SaaS",
-    live: "https://aiflex.ro",
-    accent: "#a78bfa",
-    featured: true,
-  },
-  {
     id: "carwash-pipera",
     title: "Car Wash Pipera",
     stack: ["Next.js", "Three.js", "Framer Motion"],

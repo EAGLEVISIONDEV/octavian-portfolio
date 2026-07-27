@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     "HERMYO PORTFOLIO — vitrină cinematică de produse live și câte un landing puternic pe nișă.",
   openGraph: {
     title: "HERMYO PORTFOLIO",
-    description: "Lucrări live — OVB Next, Dobre Diana, Eidan, Kreya, AIFlex și demo-uri pe nișă.",
+    description: "Lucrări live — OVB Next, Dobre Diana, Eidan, Kreya și demo-uri pe nișă.",
     type: "website",
   },
 };
