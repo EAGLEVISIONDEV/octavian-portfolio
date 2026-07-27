@@ -159,11 +159,6 @@ const dictionaries: Record<Locale, Dictionary> = {
         description:
           "Experiență contemporană de brand — vizual ascuțit și prezență de produs responsivă.",
       },
-      aiflex: {
-        tagline: "Produs AI",
-        description:
-          "Platformă AIFlex — experiență web modernă pentru produs AI, clară și orientată spre conversie.",
-      },
       hermyo: {
         tagline: "Site produs SaaS",
         description:
@@ -319,11 +314,6 @@ const dictionaries: Record<Locale, Dictionary> = {
         tagline: "Modern brand site",
         description:
           "Contemporary brand experience — sharp visuals and a responsive product presence.",
-      },
-      aiflex: {
-        tagline: "AI product",
-        description:
-          "AIFlex platform — a modern AI product web experience, clear and conversion-focused.",
       },
       hermyo: {
         tagline: "SaaS product site",
