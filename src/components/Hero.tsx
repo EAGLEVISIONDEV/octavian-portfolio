@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { profile } from "@/lib/data";
+import { useLocale } from "@/lib/i18n";
 
 const HeroScene3D = dynamic(
   () => import("@/components/HeroScene3D").then((m) => m.HeroScene3D),
@@ -12,6 +13,7 @@ const HeroScene3D = dynamic(
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const { t } = useLocale();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -22,12 +24,10 @@ export function Hero() {
 
   return (
     <section ref={ref} className="relative min-h-[100svh] overflow-hidden">
-      {/* Full-bleed atmosphere */}
       <div aria-hidden className="pointer-events-none absolute inset-0 hero-aurora" />
       <div aria-hidden className="pointer-events-none absolute inset-0 hero-noise opacity-[0.35]" />
       <div aria-hidden className="pointer-events-none absolute inset-0 grid-mask opacity-40" />
 
-      {/* Dominant edge-to-edge Saturn plane */}
       <motion.div
         style={{ y: sceneY, opacity: sceneOpacity }}
         className="pointer-events-none absolute inset-0 z-0"
@@ -50,7 +50,7 @@ export function Hero() {
           >
             <span className="h-px w-8 bg-accent" />
             <p className="text-[11px] font-semibold uppercase tracking-[0.4em] text-accent">
-              {profile.role}
+              {t.hero.role}
             </p>
           </motion.div>
 
@@ -64,7 +64,7 @@ export function Hero() {
               {profile.brand}
             </span>
             <span className="mt-3 block text-[0.28em] font-semibold tracking-[0.42em] text-text/75">
-              PORTFOLIO
+              {t.hero.portfolio}
             </span>
           </motion.h1>
 
@@ -74,7 +74,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.32 }}
             className="mt-7 max-w-md text-base leading-relaxed text-muted md:text-lg"
           >
-            {profile.bio}
+            {t.hero.bio}
           </motion.p>
 
           <motion.div
@@ -84,10 +84,10 @@ export function Hero() {
             className="mt-10 flex flex-wrap gap-3"
           >
             <a href="#work" className="hero-cta-primary">
-              Enter the orbit
+              {t.hero.ctaWork}
             </a>
             <a href="#demos" className="hero-cta-ghost">
-              Niche landings
+              {t.hero.ctaDemos}
             </a>
           </motion.div>
         </div>

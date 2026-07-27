@@ -10,14 +10,16 @@ import {
 } from "@/lib/data";
 import { SearchableShowcase } from "@/components/SearchableShowcase";
 import { motion } from "framer-motion";
+import { useLocale } from "@/lib/i18n";
 
 export function Projects() {
+  const { t } = useLocale();
   return (
     <SearchableShowcase
       id="work"
-      eyebrow="Live products"
-      title="Work by niche"
-      subtitle="Live production sites — OVB Next, dobrediana.ro, sebastianmorari.ro, and more. Click any card to open."
+      eyebrow={t.work.eyebrow}
+      title={t.work.title}
+      subtitle={t.work.subtitle}
       items={projects}
       niches={workNiches}
     />
@@ -25,13 +27,14 @@ export function Projects() {
 }
 
 export function DemoLandings() {
+  const { t } = useLocale();
   return (
     <div className="border-t border-white/5 bg-[#070a10]/60">
       <SearchableShowcase
         id="demos"
-        eyebrow="Demo landings"
-        title="One landing per niche"
-        subtitle="Eight niches. Eight live demos — beauty, barber, dental, clinic, auto, café, spa, and hospitality."
+        eyebrow={t.demos.eyebrow}
+        title={t.demos.title}
+        subtitle={t.demos.subtitle}
         items={demoLandings}
         niches={demoNiches}
       />
@@ -40,12 +43,13 @@ export function DemoLandings() {
 }
 
 export function Skills() {
+  const { t } = useLocale();
   return (
     <section id="skills" className="relative scroll-mt-24 border-y border-white/5 py-20 md:py-24">
       <div className="section-pad mx-auto max-w-6xl">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">Capabilities</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">{t.skills.eyebrow}</p>
         <h2 className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight md:text-4xl">
-          Stack & craft
+          {t.skills.title}
         </h2>
         <div className="mt-10 flex flex-wrap gap-3">
           {skills.map((s, i) => (
@@ -68,32 +72,30 @@ export function Skills() {
 }
 
 export function About() {
+  const { t } = useLocale();
   return (
     <section id="about" className="relative scroll-mt-24 py-24 md:py-28">
       <div className="section-pad mx-auto grid max-w-6xl gap-10 lg:grid-cols-2 lg:items-center">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">About</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">{t.about.eyebrow}</p>
           <h2 className="mt-3 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight">
-            Built under HERMYO
+            {t.about.title}
           </h2>
-          <p className="mt-5 text-sm leading-relaxed text-muted md:text-base">
-            HERMYO PORTFOLIO collects live products and niche demo landings — from CRM platforms
-            and SaaS sites to beauty, dental, and auto business pages.
-          </p>
+          <p className="mt-5 text-sm leading-relaxed text-muted md:text-base">{t.about.body}</p>
         </div>
         <div className="glass relative overflow-hidden rounded-2xl p-8">
           <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-accent/20 blur-3xl" />
           <dl className="relative space-y-5 text-sm">
             <div>
-              <dt className="text-[10px] uppercase tracking-[0.24em] text-muted">Studio</dt>
+              <dt className="text-[10px] uppercase tracking-[0.24em] text-muted">{t.about.studio}</dt>
               <dd className="mt-1 text-lg font-semibold">{profile.fullBrand}</dd>
             </div>
             <div>
-              <dt className="text-[10px] uppercase tracking-[0.24em] text-muted">Based</dt>
+              <dt className="text-[10px] uppercase tracking-[0.24em] text-muted">{t.about.based}</dt>
               <dd className="mt-1 text-lg font-semibold">{profile.location}</dd>
             </div>
             <div>
-              <dt className="text-[10px] uppercase tracking-[0.24em] text-muted">GitHub</dt>
+              <dt className="text-[10px] uppercase tracking-[0.24em] text-muted">{t.about.github}</dt>
               <dd className="mt-1">
                 <a
                   href={profile.github}
@@ -113,27 +115,26 @@ export function About() {
 }
 
 export function Contact() {
+  const { t } = useLocale();
   return (
     <section id="contact" className="relative scroll-mt-24 pb-28 pt-10">
       <div className="section-pad mx-auto max-w-6xl">
         <div className="glass relative overflow-hidden rounded-3xl px-8 py-14 text-center md:px-16">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(94,234,212,0.12),transparent_60%)]" />
           <p className="relative text-[11px] font-semibold uppercase tracking-[0.32em] text-accent">
-            Contact
+            {t.contact.eyebrow}
           </p>
           <h2 className="relative mt-4 font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight md:text-5xl">
-            Let&apos;s build the next one
+            {t.contact.title}
           </h2>
-          <p className="relative mx-auto mt-4 max-w-md text-sm text-muted">
-            Open for CRM platforms, brand sites, and niche landing systems.
-          </p>
+          <p className="relative mx-auto mt-4 max-w-md text-sm text-muted">{t.contact.body}</p>
           <a
             href={profile.github}
             target="_blank"
             rel="noopener noreferrer"
             className="relative mt-8 inline-flex rounded-full bg-accent px-8 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-[#041016] transition hover:bg-accent-2"
           >
-            Connect on GitHub
+            {t.contact.cta}
           </a>
         </div>
       </div>

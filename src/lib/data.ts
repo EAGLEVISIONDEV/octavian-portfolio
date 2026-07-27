@@ -16,8 +16,6 @@ export type Niche =
 export type Project = {
   id: string;
   title: string;
-  tagline: string;
-  description: string;
   stack: string[];
   niche: Niche;
   github?: string;
@@ -31,30 +29,15 @@ export const profile = {
   name: "HERMYO",
   brand: "HERMYO",
   fullBrand: "HERMYO PORTFOLIO",
-  role: "Modern product · AI · Web experiences",
-  bio: "A curated orbit of live websites — one standout per niche, each built to convert and feel unforgettable.",
   github: "https://github.com/EAGLEVISIONDEV",
   location: "Romania",
 } as const;
 
-export const orbitLabels = [
-  "CRM",
-  "Platform",
-  "AI Agents",
-  "Modern Landing Pages",
-  "Automation",
-  "Brand Sites",
-  "SaaS",
-] as const;
-
-/** Featured live products — ordered. Working production URLs only. */
+/** Featured live products — ordered. */
 export const projects: Project[] = [
   {
     id: "ovbnext",
     title: "OVB Next",
-    tagline: "Automation platform",
-    description:
-      "OVB automation CRM — pipelines, leads, and sales workflows in one modern platform.",
     stack: ["JavaScript", "CRM", "Automation"],
     niche: "CRM",
     github: "https://github.com/EAGLEVISIONDEV/OVB-automation",
@@ -65,9 +48,6 @@ export const projects: Project[] = [
   {
     id: "dobrediana",
     title: "Dobre Diana",
-    tagline: "Personal brand",
-    description:
-      "Modern personal brand website for Dobre Diana — clean layout and strong presence.",
     stack: ["Next.js", "Brand", "TypeScript"],
     niche: "Brand",
     live: "https://dobrediana.ro",
@@ -77,9 +57,6 @@ export const projects: Project[] = [
   {
     id: "sebastian",
     title: "Sebastian Morari",
-    tagline: "Personal brand site",
-    description:
-      "Polished website for Sebastian Morari — modern hierarchy and clear storytelling.",
     stack: ["Next.js", "Brand", "TypeScript"],
     niche: "Brand",
     github: "https://github.com/EAGLEVISIONDEV/v0-sebastian",
@@ -88,11 +65,36 @@ export const projects: Project[] = [
     featured: true,
   },
   {
+    id: "eidan",
+    title: "Eidan",
+    stack: ["Next.js", "Brand", "TypeScript"],
+    niche: "Brand",
+    live: "https://eidan.ro",
+    accent: "#fbbf24",
+    featured: true,
+  },
+  {
+    id: "kreya",
+    title: "Kreya",
+    stack: ["Next.js", "Brand", "TypeScript"],
+    niche: "Brand",
+    live: "https://kreya.ro",
+    previewUrl: "https://kreya.vercel.app",
+    accent: "#34d399",
+    featured: true,
+  },
+  {
+    id: "aiflex",
+    title: "AIFlex",
+    stack: ["Next.js", "AI", "SaaS"],
+    niche: "SaaS",
+    live: "https://aiflex.ro",
+    accent: "#a78bfa",
+    featured: true,
+  },
+  {
     id: "carwash-pipera",
     title: "Car Wash Pipera",
-    tagline: "Luxury auto care",
-    description:
-      "3D landing for a Pipera car wash — foam scenes, HQ photography, and conversion CTAs.",
     stack: ["Next.js", "Three.js", "Framer Motion"],
     niche: "Landing Page",
     github: "https://github.com/EAGLEVISIONDEV/carwash-pipera",
@@ -103,9 +105,6 @@ export const projects: Project[] = [
   {
     id: "ricco",
     title: "RICCO",
-    tagline: "Specialty coffee · Pipera",
-    description:
-      "Brand-first café site at Hyperion Towers — menu, delivery links, green & gold aesthetic.",
     stack: ["Next.js", "Tailwind", "TypeScript"],
     niche: "Cafe",
     github: "https://github.com/EAGLEVISIONDEV/ricco",
@@ -116,9 +115,6 @@ export const projects: Project[] = [
   {
     id: "zoca",
     title: "Zoca Imobiliare",
-    tagline: "Premium real estate",
-    description:
-      "Cinematic scroll experience for real estate — immersive storytelling and property presentation.",
     stack: ["Next.js", "Motion", "TypeScript"],
     niche: "Real Estate",
     github: "https://github.com/EAGLEVISIONDEV/proiect-zoca-imobiliare",
@@ -127,23 +123,8 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    id: "kreya",
-    title: "Kreya",
-    tagline: "Modern brand site",
-    description:
-      "Contemporary brand experience — sharp visuals and a responsive product presence.",
-    stack: ["Next.js", "Brand", "TypeScript"],
-    niche: "Brand",
-    live: "https://kreya.vercel.app",
-    accent: "#34d399",
-    featured: true,
-  },
-  {
     id: "hermyo",
     title: "Hermyo",
-    tagline: "SaaS product site",
-    description:
-      "Hermyo product landing — modern SaaS marketing, clear value props, and conversion focus.",
     stack: ["Next.js", "SaaS", "Marketing"],
     niche: "SaaS",
     github: "https://github.com/EAGLEVISIONDEV/v0-saa-s-landing-page",
@@ -153,16 +134,11 @@ export const projects: Project[] = [
   },
 ];
 
-/**
- * Demo landing pages — exactly one standout per niche.
- * Verified live URLs only.
- */
+/** Demo landing pages — exactly one standout per niche. */
 export const demoLandings: Project[] = [
   {
     id: "demo-ays",
     title: "AYS Beauty Lounge",
-    tagline: "Beauty & lounge",
-    description: "Hybrid beauty lounge landing with modern visuals and booking intent.",
     stack: ["Next.js", "Landing"],
     niche: "Beauty",
     live: "https://demo-ays-barber-beauty-lounge.vercel.app",
@@ -171,8 +147,6 @@ export const demoLandings: Project[] = [
   {
     id: "demo-elite-barber",
     title: "Elite Barber",
-    tagline: "By Adelin",
-    description: "Barbershop landing with sharp masculine branding and clear CTAs.",
     stack: ["Next.js", "Landing"],
     niche: "Barber",
     live: "https://demo-elite-barber-by-adelin-spt.vercel.app",
@@ -181,8 +155,6 @@ export const demoLandings: Project[] = [
   {
     id: "demo-menadent",
     title: "Menadent Clinic",
-    tagline: "Luxury dental",
-    description: "Premium dental clinic landing with modern medical branding.",
     stack: ["Next.js", "Landing"],
     niche: "Dental",
     live: "https://demo-menadent-luxury-dental-clinic.vercel.app",
@@ -191,8 +163,6 @@ export const demoLandings: Project[] = [
   {
     id: "demo-kineto",
     title: "Kineto Clinic",
-    tagline: "Physio & recovery",
-    description: "Clinic landing for kinetic therapy and rehabilitation.",
     stack: ["Next.js", "Landing"],
     niche: "Clinic",
     live: "https://demo-kinetoclinic-real.vercel.app",
@@ -201,8 +171,6 @@ export const demoLandings: Project[] = [
   {
     id: "demo-fortador",
     title: "Fortador Transilvania",
-    tagline: "PPF · detailing",
-    description: "Auto detailing / PPF showcase landing with premium auto aesthetics.",
     stack: ["Next.js", "Landing"],
     niche: "Auto",
     live: "https://demo-fortador-transilvania-ppf-deta.vercel.app",
@@ -211,8 +179,6 @@ export const demoLandings: Project[] = [
   {
     id: "demo-isabelle",
     title: "Cofetăria Isabelle",
-    tagline: "Pitești",
-    description: "Pastry shop landing with warm culinary branding.",
     stack: ["Next.js", "Landing"],
     niche: "Cafe",
     live: "https://demo-cofetaria-isabelle-pitesti.vercel.app",
@@ -221,8 +187,6 @@ export const demoLandings: Project[] = [
   {
     id: "demo-everest",
     title: "Everest Spa",
-    tagline: "Spa & wellness",
-    description: "Spa landing focused on calm atmosphere and packages.",
     stack: ["Next.js", "Landing"],
     niche: "Spa",
     live: "https://demo-everest-spa.vercel.app",
@@ -231,8 +195,6 @@ export const demoLandings: Project[] = [
   {
     id: "demo-hotel",
     title: "Victoria Hotel",
-    tagline: "Hospitality",
-    description: "Hotel landing page with booking-oriented structure.",
     stack: ["Next.js", "Landing"],
     niche: "Landing Page",
     live: "https://demo-victoria-hotel.vercel.app",

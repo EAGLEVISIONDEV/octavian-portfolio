@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import type { Niche, Project } from "@/lib/data";
 import { ProjectCard3D } from "@/components/ProjectCard3D";
+import { useLocale } from "@/lib/i18n";
 
 type Props = {
   id: string;
@@ -22,6 +23,7 @@ export function SearchableShowcase({
   items,
   niches,
 }: Props) {
+  const { t } = useLocale();
   const [query, setQuery] = useState("");
   const [niche, setNiche] = useState<Niche | "All">("All");
 
@@ -31,10 +33,11 @@ export function SearchableShowcase({
       const nicheOk = niche === "All" || p.niche === niche;
       if (!nicheOk) return false;
       if (!q) return true;
-      const hay = `${p.title} ${p.tagline} ${p.description} ${p.niche} ${p.stack.join(" ")}`.toLowerCase();
+      const copy = t.projects[p.id];
+      const hay = `${p.title} ${copy?.tagline ?? ""} ${copy?.description ?? ""} ${t.niches[p.niche]} ${p.niche} ${p.stack.join(" ")}`.toLowerCase();
       return hay.includes(q);
     });
-  }, [items, niche, query]);
+  }, [items, niche, query, t]);
 
   const availableNiches = useMemo(() => {
     const present = new Set(items.map((p) => p.niche));
@@ -65,7 +68,7 @@ export function SearchableShowcase({
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search by name, niche, stack…"
+              placeholder={t.showcase.search}
               className="w-full rounded-full border border-white/10 bg-white/[0.04] px-5 py-3 text-sm text-text outline-none placeholder:text-muted/70 focus:border-accent/50"
             />
           </div>
@@ -79,7 +82,7 @@ export function SearchableShowcase({
                   : "border border-white/10 text-muted hover:border-accent/40 hover:text-accent"
               }`}
             >
-              All
+              {t.showcase.all}
             </button>
             {availableNiches.map((n) => (
               <button
@@ -92,19 +95,19 @@ export function SearchableShowcase({
                     : "border border-white/10 text-muted hover:border-accent/40 hover:text-accent"
                 }`}
               >
-                {n}
+                {t.niches[n]}
               </button>
             ))}
           </div>
         </div>
 
         <p className="mt-5 text-xs text-muted">
-          Showing {filtered.length} of {items.length}
+          {t.showcase.showing.replace("{n}", String(filtered.length)).replace("{total}", String(items.length))}
         </p>
 
         {filtered.length === 0 ? (
           <div className="glass mt-10 rounded-2xl px-6 py-14 text-center text-sm text-muted">
-            No matches — try another niche or keyword.
+            {t.showcase.empty}
           </div>
         ) : (
           <div className="mt-8 grid gap-5 md:grid-cols-2">

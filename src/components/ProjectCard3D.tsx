@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 import type { Project } from "@/lib/data";
 import { LivePreview } from "@/components/LivePreview";
+import { useLocale } from "@/lib/i18n";
 
 type Props = {
   project: Project;
@@ -17,6 +18,8 @@ type Props = {
 };
 
 export function ProjectCard3D({ project, index }: Props) {
+  const { t } = useLocale();
+  const copy = t.projects[project.id];
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -86,10 +89,10 @@ export function ProjectCard3D({ project, index }: Props) {
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="inline-flex rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-accent">
-                  {project.niche}
+                  {t.niches[project.niche]}
                 </span>
                 <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted">
-                  {project.tagline}
+                  {copy?.tagline}
                 </span>
               </div>
               <h3 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-text">
@@ -101,12 +104,12 @@ export function ProjectCard3D({ project, index }: Props) {
                 className="shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#041016]"
                 style={{ background: project.accent }}
               >
-                Featured
+                {t.showcase.featured}
               </span>
             )}
           </div>
 
-          <p className="mt-3 px-1 text-sm leading-relaxed text-muted">{project.description}</p>
+          <p className="mt-3 px-1 text-sm leading-relaxed text-muted">{copy?.description}</p>
 
           <div className="mt-4 flex flex-wrap gap-2 px-1">
             {project.stack.map((s) => (
@@ -121,7 +124,7 @@ export function ProjectCard3D({ project, index }: Props) {
 
           <div className="mt-6 flex items-center justify-between gap-3 px-1">
             <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
-              Open site →
+              {t.showcase.openSite}
             </span>
             {project.github && (
               <span

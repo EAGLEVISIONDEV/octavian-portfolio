@@ -1,3 +1,5 @@
+"use client";
+
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import {
@@ -8,10 +10,11 @@ import {
   Contact,
   Footer,
 } from "@/components/Sections";
+import { LocaleProvider } from "@/lib/i18n";
 
 export default function Home() {
   return (
-    <>
+    <LocaleProvider>
       <Header />
       <main>
         <Hero />
@@ -22,6 +25,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </>
+    </LocaleProvider>
   );
 }

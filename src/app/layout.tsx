@@ -22,19 +22,19 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://octavian-portfolio.vercel.app"),
-  title: "HERMYO PORTFOLIO — Out of ordinary web",
+  title: "HERMYO PORTFOLIO — Web dincolo de obișnuit",
   description:
-    "HERMYO PORTFOLIO — cinematic showcase of live products and one standout landing page per niche.",
+    "HERMYO PORTFOLIO — vitrină cinematică de produse live și câte un landing puternic pe nișă.",
   openGraph: {
     title: "HERMYO PORTFOLIO",
-    description: "Live work that works — OVB Next, Dobre Diana, Sebastian Morari, and niche demos.",
+    description: "Lucrări live — OVB Next, Dobre Diana, Eidan, Kreya, AIFlex și demo-uri pe nișă.",
     type: "website",
   },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} h-full`}>
+    <html lang="ro" className={`${display.variable} ${body.variable} h-full`}>
       <body className="min-h-full antialiased">{children}</body>
     </html>
   );
