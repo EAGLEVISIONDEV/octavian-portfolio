@@ -23,7 +23,7 @@ export function Hero() {
   const copyY = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
   return (
-    <section ref={ref} className="relative min-h-[100svh] overflow-hidden">
+    <section ref={ref} className="relative min-h-[115svh] overflow-hidden md:min-h-[110svh]">
       <div aria-hidden className="pointer-events-none absolute inset-0 hero-aurora" />
       <div aria-hidden className="pointer-events-none absolute inset-0 hero-noise opacity-[0.35]" />
       <div aria-hidden className="pointer-events-none absolute inset-0 grid-mask opacity-40" />
@@ -45,7 +45,7 @@ export function Hero() {
 
       <motion.div
         style={{ y: copyY }}
-        className="section-pad pointer-events-none relative z-10 mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end pb-20 pt-28 lg:justify-center lg:pb-16"
+        className="section-pad pointer-events-none relative z-10 mx-auto flex min-h-[115svh] max-w-6xl flex-col justify-end pb-24 pt-28 md:min-h-[110svh] lg:justify-center lg:pb-20"
       >
         <div className="pointer-events-auto max-w-2xl">
           <motion.div

@@ -340,7 +340,7 @@ function Saturn() {
 
   return (
     <Float speed={0.65} rotationIntensity={0.05} floatIntensity={0.16}>
-      <group ref={root} position={[0.9, 0.08, 0]} rotation={[0.5, -0.28, 0.08]} scale={1.18}>
+      <group ref={root} position={[0.75, 0.05, 0]} rotation={[0.48, -0.26, 0.08]} scale={0.92}>
         <group ref={spin}>
           <mesh>
             <sphereGeometry args={[0.38, 32, 32]} />
@@ -400,7 +400,7 @@ export function HeroScene3D({ className = "" }: { className?: string }) {
     <div className={`absolute inset-0 ${className}`}>
       <Canvas
         dpr={[1, 1.6]}
-        camera={{ position: [0, 0.15, 5.4], fov: 40 }}
+        camera={{ position: [0, 0.1, 5.9], fov: 38 }}
         gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
         style={{ touchAction: "none" }}
       >
